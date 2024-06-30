@@ -9,28 +9,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.feature_selection import SelectKBest, chi2
 import category_encoders as ce
-
-class CustomLabelEncoder(BaseEstimator, TransformerMixin):
-    def __init__(self, columns):
-        self.columns = columns
-        self.encoders = {col: LabelEncoder() for col in columns}
-
-    def fit(self, X, y=None):
-        for col in self.columns:
-            self.encoders[col].fit(X[col])
-        return self
-
-    def transform(self, X):
-        X_copy = X.copy()
-        for col in self.columns:
-            X_copy[col] = self.encoders[col].transform(X[col])
-        return X_copy
-
-    def inverse_transform(self, X):
-        X_copy = X.copy()
-        for col in self.columns:
-            X_copy[col] = self.encoders[col].inverse_transform(X[col])
-        return X_copy
+from custom_label_encoder import CustomLabelEncoder  # Import CustomLabelEncoder from custom_label_encoder.py
 
 app = Flask(__name__)
 
@@ -47,6 +26,7 @@ print("Unique values loaded successfully.")
 def index():
     print("Rendering index.html...")
     return render_template('index.html', unique_values=unique_values)
+
 @app.route('/about-us')
 def about_us():
     return render_template('about_us.html')
