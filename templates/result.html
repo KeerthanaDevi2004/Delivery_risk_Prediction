@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prediction Result</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h2 class="mt-5">Prediction Result</h2>
+        <div class="alert alert-info">
+            <strong>Prediction:</strong> {% if prediction == 1 %} High Risk of Late Delivery {% else %} Low Risk of Late Delivery {% endif %}
+        </div>
+        <a href="/" class="btn btn-primary">Go Back</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About Us - Coats Company</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Header with Logo -->
+        <header class="mb-4">
+            <img src="{{ url_for('static', filename='logo.png') }}" width="50" height="50" alt="Coats Company Logo" class="img-fluid rounded-circle">
+            <h1 class="d-inline-block align-middle">About Us - Coats Company</h1>
+        </header>
+        
+        <!-- About Us Content -->
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h2>About Us</h2>
+                    </div>
+                    <div class="card-body">
+                        <p>
+                            Provide detailed description about your company and its services here.
+                            Include information about each input used in the prediction form for user understanding.
+                        </p>
+                        <p>
+                            <strong>Days for Shipping (Real):</strong> The actual number of days taken for shipping.<br>
+                            <strong>Days for Shipment (Scheduled):</strong> The scheduled days for shipment.<br>
+                            <strong>Type:</strong> The type or category of the product/order.<br>
+                            <strong>Delivery Status:</strong> The status of the delivery process.<br>
+                            <strong>Category Name:</strong> The category or type of product.<br>
+                            <strong>Customer City:</strong> The city where the customer resides.<br>
+                            <strong>Customer State:</strong> The state where the customer resides.<br>
+                            <strong>Market:</strong> The market segment or type of market.<br>
+                            <strong>Order City:</strong> The city where the order is being shipped.<br>
+                            <strong>Order Country:</strong> The country where the order is being shipped.<br>
+                            <strong>Order Region:</strong> The region where the order is being shipped.<br>
+                            <strong>Order State:</strong> The state where the order is being shipped.<br>
+                            <strong>Order Status:</strong> The status of the order.<br>
+                            <strong>Product Name:</strong> The name or description of the product.<br>
+                            <strong>Shipping Mode:</strong> The mode or method of shipping used.<br>
+                            <!-- Add more descriptions as needed -->
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

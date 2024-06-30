@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Late Delivery Risk Prediction</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- Navbar with logo and dashboard links -->
+    <nav class="navbar navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">
+            <img src="{{ url_for('static', filename='logo.png') }}" width="50" height="50" class="d-inline-block align-top rounded-circle mr-2" alt="Coats Company Logo">
+            Late Delivery Risk Prediction
+        </a>
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="#prediction">Prediction</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/about-us">About Us</a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- Dashboard content -->
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Main content -->
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h2>Late Delivery Risk Prediction</h2>
+                    </div>
+                    <div class="card-body">
+                        <form id="prediction-form">
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="days_shipping_real">Days for Shipping (Real):</label>
+                                    <input type="number" step="1" class="form-control" id="days_shipping_real" name="days_shipping_real" required>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="days_shipment_scheduled">Days for Shipment (Scheduled):</label>
+                                    <input type="number" step="1" class="form-control" id="days_shipment_scheduled" name="days_shipment_scheduled" required>
+                                </div>
+                                {% for col, values in unique_values.items() %}
+                                <div class="form-group col-md-4">
+                                    <label for="{{ col }}">{{ col.replace('_', ' ') }}:</label>
+                                    <select class="form-control autocomplete" id="{{ col }}" name="{{ col }}" required>
+                                        <option value="">Select {{ col.replace('_', ' ') }}</option>
+                                        {% for value in values %}
+                                        <option value="{{ value }}">{{ value }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Predict</button>
+                        </form>
+                        <div id="prediction-result" class="alert alert-info"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        // Initialize select2 for autocomplete
+        $(document).ready(function() {
+            $('.autocomplete').select2({
+                placeholder: "Select an option",
+                allowClear: true,
+                width: '100%'
+            });
+        });
+
+        // Submit form via AJAX
+        document.getElementById("prediction-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            var form = event.target;
+            var formData = new FormData(form);
+            var jsonData = {};
+            
+            formData.forEach(function(value, key){
+                jsonData[key] = value;
+            });
+
+            fetch("/predict", {
+                method: "POST",
+                body: JSON.stringify(jsonData),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                var resultDiv = document.getElementById("prediction-result");
+                if (data.error) {
+                    resultDiv.classList.remove('alert-info');
+                    resultDiv.classList.add('alert-danger');
+                    resultDiv.innerText = "Error: " + data.error;
+                } else {
+                    resultDiv.classList.remove('alert-danger');
+                    resultDiv.classList.add('alert-info');
+                    var predictionMessage = data.prediction === 1 ? "High Late Risk Delivery" : "Low Late Risk Delivery";
+                    if (data.prediction === 1) {
+                        resultDiv.style.color = 'red';
+                    } else {
+                        resultDiv.style.color = 'green';
+                    }
+                    resultDiv.innerText = "Prediction: " + predictionMessage;
+                }
+                resultDiv.style.display = 'block';
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                var resultDiv = document.getElementById("prediction-result");
+                resultDiv.classList.remove('alert-info');
+                resultDiv.classList.add('alert-danger');
+                resultDiv.innerText = "Error predicting: " + error.message;
+                resultDiv.style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>

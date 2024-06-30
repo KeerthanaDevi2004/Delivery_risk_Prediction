@@ -1,0 +1,60 @@
+body {
+    background-color: #f8f9fa;
+    padding-top: 60px; /* Adjust for navbar height */
+}
+
+.navbar-brand img {
+    margin-right: 10px;
+}
+
+.card {
+    margin-top: 30px;
+}
+
+.card-header {
+    background-color: #343a40;
+    color: #fff;
+}
+
+.form-group label {
+    font-weight: bold;
+}
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.form-group {
+    flex: 1 1 33%; /* Three columns per row */
+    min-width: 200px;
+    margin-bottom: 15px;
+}
+
+.btn-block {
+    margin-top: 20px;
+}
+
+.list-group-item {
+    border: none;
+}
+
+.list-group-item.active {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.list-group-item-action:hover {
+    background-color: #f8f9fa;
+}
+
+.list-group-item-action {
+    color: #007bff;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
